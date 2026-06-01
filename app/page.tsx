@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { categories, products } from "@/lib/data/products";
+import { getAllProducts, categories } from "@/lib/data/getProducts";
 import ProductCard from "@/components/ui/ProductCard";
 import NewsletterForm from "@/components/ui/NewsletterForm";
 import MarqueeTestimonials from "@/components/ui/MarqueeTestimonials";
@@ -31,7 +31,7 @@ const jsonLd = {
 };
 
 export default function HomePage() {
-  const bestsellers = products.slice(0, 4);
+  const bestsellers = getAllProducts().slice(0, 4);
 
   return (
     <div>

@@ -1,10 +1,10 @@
 import type { MetadataRoute } from "next";
-import { products } from "@/lib/data/products";
+import { getAllProducts as products } from "@/lib/data/getProducts";
 
 const BASE_URL = "https://terra-holz.de";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const productPages = products.map((p) => ({
+  const productPages = products().map((p) => ({
     url: `${BASE_URL}/shop/${p.slug}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,

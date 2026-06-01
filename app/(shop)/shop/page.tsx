@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { categories, products, getCategoryName } from "@/lib/data/products";
+import { getAllProducts, categories } from "@/lib/data/getProducts";
+import { getCategoryName } from "@/lib/data/products";
 import type { SortOption } from "@/lib/data/types";
 import ProductCard from "@/components/ui/ProductCard";
 import Pagination from "@/components/ui/Pagination";
@@ -31,6 +32,7 @@ export default async function ShopPage({ searchParams }: Props) {
   const currentPage = Math.max(1, parseInt(page ?? "1", 10));
   const maxPriceNum = maxPrice ? parseInt(maxPrice, 10) : Infinity;
 
+  const products = getAllProducts();
   let filtered = products.filter(
     (p) => (!category || p.category === category) && p.price <= maxPriceNum
   );

@@ -4,15 +4,24 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useShop } from "@/lib/context/ShopContext";
-import { products } from "@/lib/data/products";
+import type { Product } from "@/lib/data/types";
 
 export default function SearchModal() {
   const { searchOpen, setSearchOpen } = useShop();
   const [query, setQuery] = useState("");
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Fetch products from API (includes admin-added products)
+  useEffect(() => {
+    fetch("/api/admin/products")
+      .then((r) => r.json())
+      .then((data) => { if (Array.isArray(data)) setAllProducts(data); })
+      .catch(() => {});
+  }, []);
+
   const results = query.trim().length > 1
-    ? products.filter((p) =>
+    ? allProducts.filter((p) =>
         p.name.toLowerCase().includes(query.toLowerCase()) ||
         p.desc.toLowerCase().includes(query.toLowerCase()) ||
         p.category.toLowerCase().includes(query.toLowerCase())
